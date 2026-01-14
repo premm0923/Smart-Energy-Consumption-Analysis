@@ -1,0 +1,12 @@
+# Ignore huge data files
+*.csv
+*.h5
+*.pkl
+
+# Ignore Python cache
+__pycache__/
+*.pyc
+
+# Ignore System files
+.DS_Store
+.ipynb_checkpoints/

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Energy Forecast</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f4f7f6; text-align: center; }
+        .navbar { background-color: #2c3e50; color: white; padding: 20px; font-size: 24px; font-weight: bold; }
+        .container { max-width: 800px; margin: 30px auto; padding: 20px; }
+        
+        .input-card { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 30px; }
+        input, select { padding: 10px; width: 60%; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; font-size: 16px; }
+        button { padding: 12px 30px; background-color: #27ae60; color: white; border: none; font-size: 16px; border-radius: 5px; cursor: pointer; transition: 0.3s; }
+        button:hover { background-color: #219150; }
+
+        .results-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .result-card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-top: 5px solid #3498db; }
+        .result-card h3 { color: #7f8c8d; font-size: 16px; margin: 0; }
+        .result-card .value { font-size: 28px; font-weight: bold; color: #2c3e50; margin-top: 10px; }
+        .unit { font-size: 14px; color: #95a5a6; }
+        
+        .card-1 { border-color: #3498db; } 
+        .card-2 { border-color: #9b59b6; } 
+        .card-3 { border-color: #e67e22; } 
+        .card-4 { border-color: #e74c3c; } 
+    </style>
+</head>
+<body>
+
+    <div class="navbar">⚡ Smart Energy Predictor</div>
+
+    <div class="container">
+        
+        <div class="input-card">
+            <h2>Enter Details</h2>
+            <form action="/predict" method="post">
+                <label style="font-weight:bold; color:#555;">Previous Hour Usage (kW)</label><br>
+                <input type="number" step="any" name="prev_usage" placeholder="e.g. 0.5" required><br>
+                
+                <label style="font-weight:bold; color:#555;">Day of the Week</label><br>
+                <select name="day_of_week">
+                    <option value="0">Monday</option>
+                    <option value="1">Tuesday</option>
+                    <option value="2">Wednesday</option>
+                    <option value="3">Thursday</option>
+                    <option value="4">Friday</option>
+                    <option value="5">Saturday</option>
+                    <option value="6">Sunday</option>
+                </select><br>
+                
+                <button type="submit">PREDICT NEXT HOUR</button>
+            </form>
+            
+            {% if error_text %}
+            <p style="color:red; font-weight:bold;">{{ error_text }}</p>
+            {% endif %}
+        </div>
+
+        {% if show_result %}
+        <div class="results-grid">
+            
+            <div class="result-card card-1">
+                <h3>Next Hour Forecast</h3>
+                <div class="value">{{ p_1h }} <span class="unit">kW</span></div>
+            </div>
+
+            <div class="result-card card-2">
+                <h3>Next 3 Hours (Est.)</h3>
+                <div class="value">{{ p_3h }} <span class="unit">kWh</span></div>
+            </div>
+
+            <div class="result-card card-3">
+                <h3>Next Week (Est.)</h3>
+                <div class="value">{{ p_week }} <span class="unit">kWh</span></div>
+            </div>
+
+            <div class="result-card card-4">
+                <h3>Next Month (Est.)</h3>
+                <div class="value">{{ p_month }} <span class="unit">kWh</span></div>
+            </div>
+
+        </div>
+        {% endif %}
+
+    </div>
+
+</body>
+</html>
